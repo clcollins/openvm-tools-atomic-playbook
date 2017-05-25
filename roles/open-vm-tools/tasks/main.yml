@@ -1,0 +1,36 @@
+---
+  - name: Atomic | Open-VM-Tools | Pull Image
+    command: atomic pull --storage ostree registry.access.redhat.com/rhel7/open-vm-tools
+    args:
+      creates: /var/lib/containers/atomic/open-vm-tools/
+    register: open_vm_tools_pull
+
+  - name: Atomic | Open-VM-Tools | Install Container
+    command: atomic install --system registry.access.redhat.com/rhel7/open-vm-tools
+    args:
+      creates: /var/lib/containers/atomic/open-vm-tools/
+    register: open_vm_tools_install
+    when: open_vm_tools_pull.rc == 0
+
+  - name: Atomic | Open-VM-Tools | Start Container
+    systemd:
+      state: started
+      name: open-vm-tools
+
+  # Requires Ansible 2.4
+  #- name: Atomic | Open-VM-Tools 
+  #  atomic_container:
+  #    name: open-vm-tools
+  #    image: registry.access.redhat.com/rhel7/open-vm-tools 
+  #    backend: ostree
+  #    state: latest
+  #    system: True
+
+  # An alternative:
+  #- name: Atomic | Open-VM-Tools 
+  #  atomic_image:
+  #    name: registry.access.redhat.com/rhel7/open-vm-tools 
+  #    backend: ostree
+  #    state: latest
+  #    started: True
+
