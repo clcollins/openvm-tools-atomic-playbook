@@ -1,3 +1,5 @@
+#This repository is archived and will no longer receive updates.
+
 # openvm-tools-atomic-playbook
 Ansible playbook for installing openvm-tools as a system container on Atomic hosts
 
